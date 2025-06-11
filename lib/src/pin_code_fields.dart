@@ -217,6 +217,10 @@ class PinCodeTextField extends StatefulWidget {
   /// Builds separator children
   final IndexedWidgetBuilder? separatorBuilder;
 
+  /// Accessibility label for this field; used by screen readers to describe its purpose.
+  /// Highly recommended for accessibility. If null, no label is provided.
+  final String? semanticsLabel;
+
   PinCodeTextField({
     Key? key,
     required this.appContext,
@@ -282,7 +286,8 @@ class PinCodeTextField extends StatefulWidget {
     /// Default create internal [AutofillGroup]
     this.useExternalAutoFillGroup = false,
     this.scrollPadding = const EdgeInsets.all(20),
-    this.separatorBuilder
+    this.separatorBuilder,
+    this.semanticsLabel,
   })  : assert(obscuringCharacter.isNotEmpty),
         super(key: key);
 
@@ -872,9 +877,12 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                         }
                       }
                     : null,
-                child: Row(
-                  mainAxisAlignment: widget.mainAxisAlignment,
-                  children: _generateFields(),
+                child: Semantics(
+                  label: widget.semanticsLabel,
+                  child: Row(
+                    mainAxisAlignment: widget.mainAxisAlignment,
+                    children: _generateFields(),
+                  ),
                 ),
               ),
             ),
